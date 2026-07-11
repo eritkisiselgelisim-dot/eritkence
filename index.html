@@ -73,9 +73,9 @@ h1,h2,h3{ font-family:var(--font-display); font-weight:700; letter-spacing:-.01e
   box-shadow:0 40px 80px -30px rgba(31,111,74,.45);
 }
 @keyframes morph{
-  0%,100%{ border-radius:63% 37% 54% 46% / 55% 48% 52% 45%; }
-  33%{ border-radius:42% 58% 39% 61% / 47% 45% 55% 53%; }
-  66%{ border-radius:50% 50% 65% 35% / 40% 62% 38% 60%; }
+  0%,100%{ border-radius:63% 37% 54% 46% / 55% 48% 52% 45%; transform:rotate(0deg); }
+  33%{ border-radius:42% 58% 39% 61% / 47% 45% 55% 53%; transform:rotate(4deg); }
+  66%{ border-radius:50% 50% 65% 35% / 40% 62% 38% 60%; transform:rotate(-3deg); }
 }
 .blob-label{
   position:relative; z-index:2; text-align:center; color:#fff;
@@ -174,6 +174,34 @@ h1,h2,h3{ font-family:var(--font-display); font-weight:700; letter-spacing:-.01e
 .login-box p{ color:var(--ink-faint); font-size:12.5px; margin-bottom:22px; }
 .login-error{ color:#b3392f; font-size:12.5px; margin-top:10px; display:none; }
 @media (prefers-reduced-motion: reduce){ *{ animation-duration:.001ms !important; transition-duration:.001ms !important; } }
+
+/* ============ HAREKET / SCROLL REVEAL ============ */
+@keyframes fadeUp{
+  from{ opacity:0; transform:translateY(26px); }
+  to{ opacity:1; transform:translateY(0); }
+}
+.hero-anim{ opacity:0; animation:fadeUp .8s cubic-bezier(.19,1,.22,1) forwards; }
+.hero-anim:nth-child(1){ animation-delay:.05s; }
+.hero-anim:nth-child(2){ animation-delay:.18s; }
+.hero-anim:nth-child(3){ animation-delay:.3s; }
+.blob-wrap .hero-anim{ animation-delay:.15s; }
+
+.reveal{ opacity:0; transform:translateY(28px); transition:opacity .7s cubic-bezier(.19,1,.22,1), transform .7s cubic-bezier(.19,1,.22,1); }
+.reveal.in-view{ opacity:1; transform:translateY(0); }
+
+.nav-links a{ position:relative; }
+.nav-links a::after{
+  content:""; position:absolute; left:0; right:100%; bottom:-4px; height:2px; background:var(--green);
+  transition:right .25s ease;
+}
+.nav-links a:hover::after{ right:0; }
+
+.portfolio-item{ overflow:hidden; }
+.portfolio-item img{ transition:transform .5s cubic-bezier(.19,1,.22,1); }
+.portfolio-item:hover img{ transform:scale(1.07); }
+
+.service-card .icon svg{ transition:transform .3s ease; }
+.service-card:hover .icon svg{ transform:rotate(-8deg) scale(1.1); }
 </style>
 </head>
 <body>
@@ -194,24 +222,24 @@ h1,h2,h3{ font-family:var(--font-display); font-weight:700; letter-spacing:-.01e
 <header class="hero" id="hero">
   <div class="container hero-grid">
     <div>
-      <span class="eyebrow">Grafik Tasarım &amp; Marka Ajansı</span>
-      <h1 id="heroTitle">Fikrinizi <span style="color:var(--green)">markaya</span> eritiyoruz.</h1>
-      <p class="lead" id="heroLead">Logo, broşür, QR menü, kurumsal website ve PR çalışmalarıyla; işletmenizin göründüğü her yerde tutarlı ve güçlü bir izlenim bırakıyoruz.</p>
-      <div class="hero-cta-row">
+      <span class="eyebrow hero-anim">Grafik Tasarım &amp; Marka Ajansı</span>
+      <h1 id="heroTitle" class="hero-anim">Fikrinizi <span style="color:var(--green)">markaya</span> eritiyoruz.</h1>
+      <p class="lead hero-anim" id="heroLead">Logo, broşür, QR menü, kurumsal website ve PR çalışmalarıyla; işletmenizin göründüğü her yerde tutarlı ve güçlü bir izlenim bırakıyoruz.</p>
+      <div class="hero-cta-row hero-anim">
         <a href="#contact" class="btn btn-primary">Teklif Al</a>
         <a href="#services" class="btn btn-ghost">Hizmetleri İncele</a>
       </div>
     </div>
     <div class="blob-wrap">
-      <div class="blob"></div>
-      <div class="blob-label">Marka Kimliği<strong id="blobBrand">Eritkence</strong></div>
+      <div class="blob hero-anim"></div>
+      <div class="blob-label hero-anim">Marka Kimliği<strong id="blobBrand">Eritkence</strong></div>
     </div>
   </div>
 </header>
 
 <section class="section section-alt" id="services">
   <div class="container">
-    <div class="section-head"><span class="eyebrow">Neler Yapıyoruz</span><h2>Hizmetlerimiz</h2></div>
+    <div class="section-head reveal"><span class="eyebrow">Neler Yapıyoruz</span><h2>Hizmetlerimiz</h2></div>
     <div class="services-grid" id="servicesGrid"><div class="empty-state">Yükleniyor...</div></div>
   </div>
 </section>
@@ -229,14 +257,14 @@ h1,h2,h3{ font-family:var(--font-display); font-weight:700; letter-spacing:-.01e
 
 <section class="section section-alt" id="portfolio">
   <div class="container">
-    <div class="section-head"><span class="eyebrow">Örnek Çalışmalar</span><h2>Portfolyo</h2></div>
+    <div class="section-head reveal"><span class="eyebrow">Örnek Çalışmalar</span><h2>Portfolyo</h2></div>
     <div class="portfolio-grid" id="portfolioGrid"><div class="empty-state">Henüz görsel eklenmedi.</div></div>
   </div>
 </section>
 
 <section class="section" id="contact">
   <div class="container">
-    <div class="contact-box">
+    <div class="contact-box reveal">
       <div>
         <h2 id="contactTitle">Projenizi konuşalım.</h2>
         <p id="contactSub">WhatsApp üzerinden birkaç dakika içinde dönüş yapıyoruz.</p>
@@ -395,7 +423,10 @@ const DEFAULT_SETTINGS = {
   heroLead: "5 yıldır restoran, kafe ve küçük esnafın markasını; logo, broşür, QR menü ve daha fazlasıyla şekillendiriyoruz. İşletmenizin göründüğü her yerde güçlü ve tutarlı bir izlenim bırakıyoruz.",
   aboutText: "Eritkence, 5 yıldır restoran, kafe ve küçük esnaf işletmelerinin markalarını şekillendiren bir tasarım atölyesidir. Menüden tabelaya, sosyal medyadan web sitesine kadar; müşterilerinizin sizi tanıdığı her noktada tutarlı bir kimlik oluşturuyoruz.\n\nSektörü yakından tanıyoruz: yoğun bir işletmenin günlük temposuna uygun, pratik, hızlı ve bütçe dostu çözümler üretiyoruz.",
   stats: [{num:"5+",label:"Yıllık Deneyim"},{num:"Restoran & Kafe",label:"Uzmanlık Alanı"},{num:"Logo → QR Menü",label:"Uçtan Uca Hizmet"},{num:"WhatsApp",label:"Hızlı Dönüş"}],
-  portfolio: [],
+  portfolio: [
+    { image: "images/chef-tost-logo.png", caption: "Chef Tost — Logo Tasarımı" },
+    { image: "images/katmerci-ibo-dayi-menuboard.jpg", caption: "Katmerci İbo Dayı — Menü Panosu" }
+  ],
   contactPhone: "", contactMessage: "Merhaba, bir teklif almak istiyorum:",
   contactTitle: "Projenizi konuşalım.", contactSub: "WhatsApp üzerinden birkaç dakika içinde dönüş yapıyoruz."
 };
@@ -461,7 +492,7 @@ function renderPublicSite(){
   document.getElementById("heroLead").textContent = s.heroLead;
   document.getElementById("aboutText").innerHTML = (s.aboutText||"").split("\n\n").map(p=>`<p>${escapeHtml(p)}</p>`).join("");
   document.getElementById("statGrid").innerHTML = (s.stats||[]).map(st=>`
-    <div class="stat-card"><div class="num">${escapeHtml(st.num)}</div><div class="label">${escapeHtml(st.label)}</div></div>`).join("");
+    <div class="stat-card reveal"><div class="num">${escapeHtml(st.num)}</div><div class="label">${escapeHtml(st.label)}</div></div>`).join("");
   document.getElementById("contactTitle").textContent = s.contactTitle;
   document.getElementById("contactSub").textContent = s.contactSub;
   document.getElementById("contactBtn").href = buildContactLink("");
@@ -471,7 +502,7 @@ function renderPublicSite(){
     pf.innerHTML = `<div class="empty-state">Henüz görsel eklenmedi.</div>`;
   } else {
     pf.innerHTML = s.portfolio.map(p=>`
-      <div class="portfolio-item"><img src="${p.image}" alt="${escapeHtml(p.caption||"")}">${p.caption?`<div class="cap">${escapeHtml(p.caption)}</div>`:""}</div>`).join("");
+      <div class="portfolio-item reveal"><img src="${p.image}" alt="${escapeHtml(p.caption||"")}">${p.caption?`<div class="cap">${escapeHtml(p.caption)}</div>`:""}</div>`).join("");
   }
 
   const active = SERVICES.filter(sv=>sv.active).sort((a,b)=>(a.order||0)-(b.order||0));
@@ -480,7 +511,7 @@ function renderPublicSite(){
     grid.innerHTML = `<div class="empty-state">Henüz bir hizmet eklenmedi.</div>`;
   } else {
     grid.innerHTML = active.map(sv=>`
-      <div class="service-card">
+      <div class="service-card reveal">
         ${sv.image?`<img src="${sv.image}" alt="${escapeHtml(sv.title)}">`:`<div class="icon">${iconFor()}</div>`}
         ${sv.badge?`<span class="badge">${escapeHtml(sv.badge)}</span>`:""}
         <h3>${escapeHtml(sv.title)}</h3>
@@ -711,7 +742,20 @@ document.getElementById("saveContactBtn").addEventListener("click", async ()=>{
   await loadSettings();
   await loadServices();
   renderPublicSite();
+  initRevealObserver();
 })();
+
+function initRevealObserver(){
+  const observer = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if (entry.isIntersecting){
+        entry.target.classList.add("in-view");
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: "0px 0px -60px 0px" });
+  document.querySelectorAll(".reveal").forEach(el=>observer.observe(el));
+}
 </script>
 </body>
 </html>
