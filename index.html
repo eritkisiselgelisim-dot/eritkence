@@ -290,7 +290,10 @@ h1,h2,h3{ font-family:var(--font-display); font-weight:700; letter-spacing:-.01e
         <div class="card">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; flex-wrap:wrap; gap:10px;">
             <h3 style="margin:0;">Hizmet Listesi</h3>
-            <button class="btn btn-primary" style="padding:9px 16px; font-size:12.5px; border-radius:8px;" id="addServiceBtn">+ Yeni Hizmet</button>
+            <div style="display:flex; gap:8px;">
+              <button class="btn-outline" id="seedServicesBtn">Hazır 6 Hizmeti Yükle</button>
+              <button class="btn btn-primary" style="padding:9px 16px; font-size:12.5px; border-radius:8px;" id="addServiceBtn">+ Yeni Hizmet</button>
+            </div>
           </div>
           <div id="serviceList"></div>
         </div>
@@ -313,7 +316,10 @@ h1,h2,h3{ font-family:var(--font-display); font-weight:700; letter-spacing:-.01e
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;"><h3 style="margin:0;">İstatistikler</h3><button class="add-row-btn" id="addStatBtn">+ Ekle</button></div>
           <div id="statRows"></div>
         </div>
-        <button class="btn btn-primary" id="saveSettingsBtn">Ayarları Kaydet</button>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <button class="btn btn-primary" id="saveSettingsBtn">Ayarları Kaydet</button>
+          <button class="btn-outline" id="seedSettingsBtn">Hazır Metinleri Yükle</button>
+        </div>
       </section>
 
       <section class="tab-panel" id="tab-portfolio">
@@ -386,20 +392,20 @@ const auth = firebase.auth();
 const DEFAULT_SETTINGS = {
   brandName: "Eritkence",
   heroTitlePre: "Fikrinizi", heroTitleAccent: "markaya", heroTitlePost: "eritiyoruz.",
-  heroLead: "Logo, broşür, QR menü, kurumsal website ve PR çalışmalarıyla; işletmenizin göründüğü her yerde tutarlı ve güçlü bir izlenim bırakıyoruz.",
-  aboutText: "Eritkence, markaların ham fikirlerini net ve akılda kalıcı bir kimliğe dönüştüren bir tasarım atölyesidir.\n\nHer proje; araştırma, tasarım ve uygulama adımlarından geçerek, işletmenizin göründüğü her noktada tutarlı bir izlenim bırakacak şekilde şekillendirilir.",
-  stats: [{num:"—",label:"Tamamlanan Proje"},{num:"—",label:"Mutlu Müşteri"},{num:"—",label:"Yıllık Deneyim"},{num:"7/24",label:"Destek"}],
+  heroLead: "5 yıldır restoran, kafe ve küçük esnafın markasını; logo, broşür, QR menü ve daha fazlasıyla şekillendiriyoruz. İşletmenizin göründüğü her yerde güçlü ve tutarlı bir izlenim bırakıyoruz.",
+  aboutText: "Eritkence, 5 yıldır restoran, kafe ve küçük esnaf işletmelerinin markalarını şekillendiren bir tasarım atölyesidir. Menüden tabelaya, sosyal medyadan web sitesine kadar; müşterilerinizin sizi tanıdığı her noktada tutarlı bir kimlik oluşturuyoruz.\n\nSektörü yakından tanıyoruz: yoğun bir işletmenin günlük temposuna uygun, pratik, hızlı ve bütçe dostu çözümler üretiyoruz.",
+  stats: [{num:"5+",label:"Yıllık Deneyim"},{num:"Restoran & Kafe",label:"Uzmanlık Alanı"},{num:"Logo → QR Menü",label:"Uçtan Uca Hizmet"},{num:"WhatsApp",label:"Hızlı Dönüş"}],
   portfolio: [],
   contactPhone: "", contactMessage: "Merhaba, bir teklif almak istiyorum:",
   contactTitle: "Projenizi konuşalım.", contactSub: "WhatsApp üzerinden birkaç dakika içinde dönüş yapıyoruz."
 };
 const DEFAULT_SERVICES = [
-  { title:"Grafik Tasarım", desc:"Sosyal medya, reklam ve basılı materyaller için özgün görsel tasarımlar.", order:1, active:true, badge:"", image:"" },
-  { title:"Logo Tasarımı", desc:"Markanızı temsil eden, akılda kalıcı ve zamana dayanıklı bir logo.", order:2, active:true, badge:"Popüler", image:"" },
-  { title:"Broşür Tasarımı", desc:"İşletmenizi profesyonelce anlatan, baskıya hazır broşür tasarımları.", order:3, active:true, badge:"", image:"" },
-  { title:"QR Menü", desc:"Restoran ve kafeler için hızlı, şık ve güncellenebilir dijital QR menü.", order:4, active:true, badge:"", image:"" },
-  { title:"İşletmeye Özel Website", desc:"İşletmenize özel, hızlı ve modern bir tanıtım/e-ticaret sitesi.", order:5, active:true, badge:"", image:"" },
-  { title:"PR Çalışması", desc:"Markanızın görünürlüğünü artıran halkla ilişkiler ve tanıtım stratejileri.", order:6, active:true, badge:"", image:"" }
+  { title:"Grafik Tasarım", desc:"Menü, afiş, sosyal medya görselleri ve kampanya materyalleri; işletmenizin tarzını yansıtan özgün tasarımlarla hazırlanır.", order:1, active:true, badge:"", image:"" },
+  { title:"Logo Tasarımı", desc:"Restoranınızın ya da işletmenizin karakterini yansıtan, tabeladan pakete her yerde aynı etkiyi bırakan bir logo.", order:2, active:true, badge:"Popüler", image:"" },
+  { title:"Broşür Tasarımı", desc:"Menü kitapçığından kampanya broşürüne, baskıya hazır, şık ve okunaklı tasarımlar.", order:3, active:true, badge:"", image:"" },
+  { title:"QR Menü", desc:"Müşterilerinizin telefonundan saniyeler içinde açılan, güncellemesi kolay, hızlı ve şık dijital menü.", order:4, active:true, badge:"", image:"" },
+  { title:"İşletmeye Özel Website", desc:"Restoranınızı ya da işletmenizi tanıtan, konum ve iletişim bilgilerinizi öne çıkaran, mobil uyumlu bir web sitesi.", order:5, active:true, badge:"", image:"" },
+  { title:"PR Çalışması", desc:"Yerel basında ve sosyal medyada görünürlüğünüzü artıran, müşteri sadakati oluşturan tanıtım çalışmaları.", order:6, active:true, badge:"", image:"" }
 ];
 
 let SETTINGS = structuredClone(DEFAULT_SETTINGS);
@@ -594,6 +600,28 @@ function openServiceModal(sv=null){
   document.getElementById("sv_active").checked = sv ? !!sv.active : true;
   serviceModal.classList.add("open");
 }
+document.getElementById("seedServicesBtn").addEventListener("click", async ()=>{
+  if (SERVICES.length > 0){
+    if (!confirm("Zaten hizmet listenizde kayıt var. Hazır 6 hizmeti EK olarak eklemek istiyor musunuz? (Mevcutlar silinmez)")) return;
+  } else {
+    if (!confirm("Hazır 6 hizmet (Grafik Tasarım, Logo, Broşür, QR Menü, Website, PR) siteye eklenecek. Onaylıyor musunuz?")) return;
+  }
+  try{
+    const batchAdds = DEFAULT_SERVICES.map(sv => db.collection("services").add(sv));
+    await Promise.all(batchAdds);
+    await loadServices();
+    renderServiceList();
+    showToast("Hazır hizmetler yüklendi.");
+  }catch(e){ showToast("Yüklenemedi: "+e.message, true); }
+});
+document.getElementById("seedSettingsBtn").addEventListener("click", async ()=>{
+  if (!confirm("Hazır hero/hakkımızda/istatistik metinleri, şu an formda yazılı olanların ÜZERİNE yazılacak. Devam edilsin mi?")) return;
+  try{
+    await db.collection("settings").doc("content").set(DEFAULT_SETTINGS, { merge:true });
+    await renderAdmin();
+    showToast("Hazır metinler yüklendi. Formu kontrol edip 'Ayarları Kaydet' ile son halini onaylayabilirsiniz.");
+  }catch(e){ showToast("Yüklenemedi: "+e.message, true); }
+});
 document.getElementById("addServiceBtn").addEventListener("click", ()=>openServiceModal());
 document.getElementById("closeModalBtn").addEventListener("click", ()=>serviceModal.classList.remove("open"));
 document.getElementById("saveServiceBtn").addEventListener("click", async ()=>{
