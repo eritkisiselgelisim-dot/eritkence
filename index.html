@@ -173,13 +173,59 @@ h1,h2,h3{ font-family:var(--font-display); font-weight:700; letter-spacing:-.01e
 .login-box h1{ font-size:20px; margin-bottom:6px; }
 .login-box p{ color:var(--ink-faint); font-size:12.5px; margin-bottom:22px; }
 .login-error{ color:#b3392f; font-size:12.5px; margin-top:10px; display:none; }
-@media (prefers-reduced-motion: reduce){ *{ animation-duration:.001ms !important; transition-duration:.001ms !important; } }
+/* ============ EĞLENCELİ ÇİM ŞERİDİ ============ */
+.garden-strip{
+  position:relative; height:150px; overflow:hidden; margin-top:-2px;
+  background:linear-gradient(180deg, transparent 0%, var(--mint-soft) 40%);
+}
+.garden-grass{ position:absolute; left:0; right:0; bottom:0; width:100%; height:120px; }
+.tree{ position:absolute; bottom:26px; width:46px; height:70px; filter:drop-shadow(0 6px 6px rgba(20,35,28,.12)); }
+.tree-1{ left:6%; width:38px; }
+.tree-2{ left:18%; width:52px; bottom:22px; }
+.tree-3{ right:10%; width:42px; }
+@media (max-width:700px){ .tree-2{ display:none; } }
+
+.critter{ position:absolute; }
+.snail{ width:38px; bottom:20px; left:10%; animation:snailWalk 22s ease-in-out infinite; }
+@keyframes snailWalk{
+  0%   { left:8%;  transform:scaleX(1); }
+  45%  { left:55%; transform:scaleX(1); }
+  50%  { left:55%; transform:scaleX(-1); }
+  95%  { left:8%;  transform:scaleX(-1); }
+  100% { left:8%;  transform:scaleX(1); }
+}
+.ladybug{ width:22px; bottom:30px; left:60%; animation:ladybugWalk 9s ease-in-out infinite; }
+@keyframes ladybugWalk{
+  0%,100%{ transform:translateX(0) scaleX(1); }
+  25%{ transform:translateX(40px) scaleX(1); }
+  50%{ transform:translateX(40px) scaleX(-1); }
+  75%{ transform:translateX(-10px) scaleX(-1); }
+}
+.butterfly{ width:34px; bottom:70px; left:35%; animation:butterflyFly 13s ease-in-out infinite; }
+@keyframes butterflyFly{
+  0%,100%{ transform:translate(0,0) rotate(0deg); }
+  20%{ transform:translate(60px,-24px) rotate(8deg); }
+  40%{ transform:translate(120px,4px) rotate(-6deg); }
+  60%{ transform:translate(80px,-30px) rotate(6deg); }
+  80%{ transform:translate(20px,-8px) rotate(-4deg); }
+}
+
+/* ============ KAYAKÇI — scroll ile aşağı kayar ============ */
+.skier-decor{
+  position:fixed; right:2vw; top:120px; width:64px; height:96px; z-index:15;
+  pointer-events:none; transition:top .15s linear, transform .15s linear;
+  filter:drop-shadow(0 8px 10px rgba(20,35,28,.18));
+}
+.skier-decor svg{ width:100%; height:100%; }
+@media (max-width:900px){ .skier-decor{ display:none; } }
+
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration:.001ms !important; transition-duration:.001ms !important; }
+  .skier-decor{ display:none; }
+}
 
 /* ============ EK ANİMASYON KATMANI (tasarım/renk/font değişmedi) ============ */
-.services-grid, .portfolio-grid{ perspective:1200px; }
-.service-card, .portfolio-item{ will-change:transform; transform-style:preserve-3d; }
 .service-card{ transition:transform .15s ease-out, box-shadow .25s ease, border-color .25s ease; }
-.btn{ will-change:transform; }
 
 /* ============ YENİ ANİMASYON KATMANI (renk/font/tasarım DEĞİŞMEDİ) ============ */
 
@@ -190,7 +236,6 @@ h1,h2,h3{ font-family:var(--font-display); font-weight:700; letter-spacing:-.01e
 }
 
 /* Mıknatıs (magnetic) butonlar — imleç yaklaşınca hafifçe ona doğru kayar */
-.magnetic{ will-change:transform; }
 
 /* Buton üzerinde diyagonal parlama geçişi */
 .btn{ position:relative; overflow:hidden; }
@@ -366,6 +411,86 @@ h1,h2,h3{ font-family:var(--font-display); font-weight:700; letter-spacing:-.01e
     <div class="portfolio-grid" id="portfolioGrid"><div class="empty-state">Henüz görsel eklenmedi.</div></div>
   </div>
 </section>
+
+<!-- ============ EĞLENCELİ ÇİM ŞERİDİ (dekoratif, ana tasarımı etkilemez) ============ -->
+<div class="garden-strip" aria-hidden="true">
+  <svg class="garden-grass" viewBox="0 0 1440 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,60 C120,20 220,90 340,55 C460,20 560,95 680,60 C800,25 900,90 1020,55 C1140,20 1260,90 1440,60 L1440,120 L0,120 Z" fill="var(--mint-soft)"/>
+    <path d="M0,80 C140,45 260,105 400,75 C540,45 640,110 780,80 C920,50 1040,110 1180,80 C1300,55 1380,95 1440,80 L1440,120 L0,120 Z" fill="var(--mint)"/>
+  </svg>
+
+  <!-- Küçük ağaçlar -->
+  <svg class="tree tree-1" viewBox="0 0 40 60" xmlns="http://www.w3.org/2000/svg">
+    <rect x="17" y="42" width="6" height="16" rx="2" fill="#8a6a4a"/>
+    <path d="M20 2 L34 26 L26 26 L36 42 L4 42 L14 26 L6 26 Z" fill="var(--green)"/>
+  </svg>
+  <svg class="tree tree-2" viewBox="0 0 40 60" xmlns="http://www.w3.org/2000/svg">
+    <rect x="17" y="44" width="6" height="14" rx="2" fill="#8a6a4a"/>
+    <path d="M20 6 L32 28 L25 28 L34 44 L6 44 L15 28 L8 28 Z" fill="var(--green-dark)"/>
+  </svg>
+  <svg class="tree tree-3" viewBox="0 0 40 60" xmlns="http://www.w3.org/2000/svg">
+    <rect x="17" y="40" width="6" height="18" rx="2" fill="#8a6a4a"/>
+    <path d="M20 0 L35 24 L27 24 L37 40 L3 40 L13 24 L5 24 Z" fill="var(--green)"/>
+  </svg>
+
+  <!-- Salyangoz — yavaşça sağa sola gezinir -->
+  <svg class="critter snail" viewBox="0 0 44 30" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="16" cy="23" rx="14" ry="6" fill="#e7f4ea" stroke="var(--green-dark)" stroke-width="1.5"/>
+    <circle cx="27" cy="14" r="10" fill="none" stroke="#c98a4b" stroke-width="3"/>
+    <path d="M27 14 m0 -6 a6 6 0 1 1 -0.1 0 Z" fill="#e3a86b"/>
+    <path d="M6 18 Q0 10 3 4" stroke="var(--green-dark)" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <circle cx="3" cy="4" r="1.6" fill="var(--green-dark)"/>
+    <path d="M10 16 Q6 8 9 3" stroke="var(--green-dark)" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <circle cx="9" cy="3" r="1.6" fill="var(--green-dark)"/>
+  </svg>
+
+  <!-- Uğurböceği — çim üzerinde kısa adımlarla yürür -->
+  <svg class="critter ladybug" viewBox="0 0 30 26" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="15" cy="15" rx="12" ry="10" fill="#e0433c"/>
+    <path d="M15 5 L15 25" stroke="#1a1210" stroke-width="1.4"/>
+    <circle cx="15" cy="6" r="5.4" fill="#1a1210"/>
+    <circle cx="9" cy="11" r="1.7" fill="#1a1210"/>
+    <circle cx="20" cy="11" r="1.7" fill="#1a1210"/>
+    <circle cx="8" cy="19" r="1.7" fill="#1a1210"/>
+    <circle cx="21" cy="19" r="1.7" fill="#1a1210"/>
+  </svg>
+
+  <!-- Kelebek — çim üzerinde uçuşur -->
+  <svg class="critter butterfly" viewBox="0 0 40 30" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="20" cy="15" rx="1.6" ry="10" fill="#3a2a1a"/>
+    <path d="M19 8 C10 -2 -2 4 6 14 C12 20 18 14 19 8 Z" fill="var(--green)"/>
+    <path d="M21 8 C30 -2 42 4 34 14 C28 20 22 14 21 8 Z" fill="var(--mint)"/>
+    <path d="M19 16 C12 20 6 26 12 28 C17 29 19 22 19 16 Z" fill="var(--green-dark)"/>
+    <path d="M21 16 C28 20 34 26 28 28 C23 29 21 22 21 16 Z" fill="var(--green)"/>
+  </svg>
+</div>
+
+<!-- ============ KAYAKÇI — scroll ile aşağı doğru kayar (dekoratif) ============ -->
+<div class="skier-decor" id="skierDecor" aria-hidden="true">
+  <svg viewBox="0 0 60 90" xmlns="http://www.w3.org/2000/svg">
+    <!-- kar izi -->
+    <path d="M8 80 Q30 84 52 80" stroke="#ffffff" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.85"/>
+    <!-- kayaklar -->
+    <rect x="4" y="76" width="22" height="4" rx="2" fill="#ffffff" transform="rotate(-8 15 78)"/>
+    <rect x="34" y="76" width="22" height="4" rx="2" fill="#ffffff" transform="rotate(8 45 78)"/>
+    <!-- bacaklar -->
+    <path d="M26 60 L18 76" stroke="var(--green-dark)" stroke-width="6" stroke-linecap="round"/>
+    <path d="M34 60 L42 76" stroke="var(--green-dark)" stroke-width="6" stroke-linecap="round"/>
+    <!-- gövde -->
+    <rect x="20" y="38" width="20" height="26" rx="9" fill="var(--green)"/>
+    <!-- kollar + batonlar -->
+    <path d="M20 44 L6 36" stroke="var(--green)" stroke-width="5" stroke-linecap="round"/>
+    <path d="M6 36 L2 54" stroke="#8a6a4a" stroke-width="2" stroke-linecap="round"/>
+    <path d="M40 44 L54 36" stroke="var(--green)" stroke-width="5" stroke-linecap="round"/>
+    <path d="M54 36 L58 54" stroke="#8a6a4a" stroke-width="2" stroke-linecap="round"/>
+    <!-- kafa + kask -->
+    <circle cx="30" cy="26" r="11" fill="#ffe0c2"/>
+    <path d="M18 24 a12 12 0 0 1 24 0 Z" fill="var(--green-dark)"/>
+    <rect x="24" y="24" width="12" height="5" rx="2.5" fill="#eef2f6"/>
+    <!-- atkı -->
+    <path d="M22 34 Q30 40 38 34" stroke="#e0433c" stroke-width="4" fill="none" stroke-linecap="round"/>
+  </svg>
+</div>
 
 <section class="section" id="contact">
   <div class="container">
@@ -894,7 +1019,26 @@ document.getElementById("saveContactBtn").addEventListener("click", async ()=>{
   initStickyCta();
   initBlobParallax();
   initCardTilt();
+  initSkier();
 })();
+
+/* ---------------- Kayakçı — scroll ilerledikçe aşağı kayar + hafif zikzak ---------------- */
+function initSkier(){
+  const skier = document.getElementById("skierDecor");
+  if (!skier) return;
+  const update = () => {
+    const h = document.documentElement;
+    const max = h.scrollHeight - h.clientHeight;
+    const progress = max > 0 ? h.scrollTop / max : 0;
+    const travel = window.innerHeight - 140; // üst/alt boşluk payı
+    const top = 90 + progress * travel;
+    const wiggle = Math.sin(h.scrollTop / 90) * 14; // kayak yaparken zikzak hissi
+    skier.style.top = top + "px";
+    skier.style.transform = `translateX(${wiggle}px) rotate(${wiggle*0.4}deg)`;
+  };
+  window.addEventListener("scroll", update, { passive: true });
+  update();
+}
 
 /* ---------------- Servis kartları — fareye tepki veren 3D tilt ---------------- */
 function initCardTilt(){
