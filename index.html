@@ -64,7 +64,7 @@ h1,h2,h3{ font-family:var(--font-display); font-weight:700; letter-spacing:-.01e
 .hero h1{ font-size:clamp(38px,5.4vw,64px); margin:16px 0 22px; }
 .hero p.lead{ font-size:18px; color:var(--ink-dim); max-width:480px; margin-bottom:34px; }
 .hero-cta-row{ display:flex; gap:16px; flex-wrap:wrap; }
-.blob-wrap{ position:relative; display:flex; align-items:center; justify-content:center; min-height:380px; }
+.blob-wrap{ position:relative; display:flex; align-items:center; justify-content:center; min-height:380px; transition:transform .4s ease-out; will-change:transform; }
 .blob{
   position:absolute; width:400px; height:400px;
   background:linear-gradient(135deg,var(--green) 0%, #2f8f5d 55%, var(--mint) 130%);
@@ -175,6 +175,87 @@ h1,h2,h3{ font-family:var(--font-display); font-weight:700; letter-spacing:-.01e
 .login-error{ color:#b3392f; font-size:12.5px; margin-top:10px; display:none; }
 @media (prefers-reduced-motion: reduce){ *{ animation-duration:.001ms !important; transition-duration:.001ms !important; } }
 
+/* ============ EK ANİMASYON KATMANI (tasarım/renk/font değişmedi) ============ */
+.services-grid, .portfolio-grid{ perspective:1200px; }
+.service-card, .portfolio-item{ will-change:transform; transform-style:preserve-3d; }
+.service-card{ transition:transform .15s ease-out, box-shadow .25s ease, border-color .25s ease; }
+.btn{ will-change:transform; }
+
+/* ============ YENİ ANİMASYON KATMANI (renk/font/tasarım DEĞİŞMEDİ) ============ */
+
+/* Scroll ilerleme çubuğu */
+#scrollProgress{
+  position:fixed; top:0; left:0; height:3px; width:0%; z-index:200;
+  background:linear-gradient(90deg,var(--green),#2f8f5d); transition:width .1s linear;
+}
+
+/* Mıknatıs (magnetic) butonlar — imleç yaklaşınca hafifçe ona doğru kayar */
+.magnetic{ will-change:transform; }
+
+/* Buton üzerinde diyagonal parlama geçişi */
+.btn{ position:relative; overflow:hidden; }
+.btn::before{
+  content:""; position:absolute; top:0; left:-60%; width:40%; height:100%;
+  background:linear-gradient(120deg, transparent, rgba(255,255,255,.35), transparent);
+  transform:skewX(-20deg); transition:left .6s ease;
+  pointer-events:none;
+}
+.btn:hover::before{ left:120%; }
+.contact-box .btn-primary::before{ background:linear-gradient(120deg, transparent, rgba(31,111,74,.25), transparent); }
+
+/* Kayan (marquee) şerit */
+.ticker-strip{
+  background:var(--mint-soft); border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+  overflow:hidden; white-space:nowrap; padding:16px 0;
+}
+.ticker-track{
+  display:inline-flex; gap:48px; animation:tickerScroll 26s linear infinite;
+}
+.ticker-track span{
+  font-family:var(--font-mono); font-size:13px; letter-spacing:.08em; color:var(--green-dark);
+  text-transform:uppercase; display:inline-flex; align-items:center; gap:12px;
+}
+.ticker-track span::after{ content:"✦"; color:var(--green); opacity:.6; }
+@keyframes tickerScroll{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+.ticker-strip:hover .ticker-track{ animation-play-state:paused; }
+
+/* Hero blob — mouse'a hafif tepki (parallax tilt) */
+.blob{ will-change:transform; }
+
+/* Sabit (sticky) WhatsApp CTA — hero geçildikten sonra belirir */
+.sticky-cta{
+  position:fixed; right:26px; bottom:26px; z-index:150;
+  display:flex; align-items:center; gap:10px;
+  background:var(--green); color:#fff; padding:14px 22px; border-radius:100px;
+  box-shadow:0 18px 40px -14px rgba(31,111,74,.55);
+  opacity:0; transform:translateY(16px) scale(.92); pointer-events:none;
+  transition:opacity .35s ease, transform .35s ease, background .2s;
+  font-weight:600; font-size:14px;
+}
+.sticky-cta.visible{ opacity:1; transform:translateY(0) scale(1); pointer-events:auto; }
+.sticky-cta:hover{ background:var(--green-dark); }
+.sticky-cta svg{ width:18px; height:18px; flex-shrink:0; }
+
+/* Sayaç (count-up) rakamları için hafif "pop" hissi */
+.stat-card .num{ display:inline-block; }
+.stat-card.in-view .num{ animation:numPop .5s ease; }
+@keyframes numPop{ 0%{ transform:scale(.85); opacity:.4; } 100%{ transform:scale(1); opacity:1; } }
+
+/* Kartlarda kademeli (staggered) beliriş */
+.services-grid .service-card:nth-child(1){ transition-delay:0s; }
+.services-grid .service-card:nth-child(2){ transition-delay:.08s; }
+.services-grid .service-card:nth-child(3){ transition-delay:.16s; }
+.services-grid .service-card:nth-child(4){ transition-delay:.24s; }
+.services-grid .service-card:nth-child(5){ transition-delay:.32s; }
+.services-grid .service-card:nth-child(6){ transition-delay:.4s; }
+.stat-grid .stat-card:nth-child(1){ transition-delay:0s; }
+.stat-grid .stat-card:nth-child(2){ transition-delay:.1s; }
+.stat-grid .stat-card:nth-child(3){ transition-delay:.2s; }
+.stat-grid .stat-card:nth-child(4){ transition-delay:.3s; }
+.portfolio-grid .portfolio-item:nth-child(1){ transition-delay:0s; }
+.portfolio-grid .portfolio-item:nth-child(2){ transition-delay:.12s; }
+.portfolio-grid .portfolio-item:nth-child(3){ transition-delay:.24s; }
+
 /* ============ HAREKET / SCROLL REVEAL ============ */
 @keyframes fadeUp{
   from{ opacity:0; transform:translateY(26px); }
@@ -196,15 +277,35 @@ h1,h2,h3{ font-family:var(--font-display); font-weight:700; letter-spacing:-.01e
 }
 .nav-links a:hover::after{ right:0; }
 
-.portfolio-item{ overflow:hidden; }
+.portfolio-item{ overflow:hidden; cursor:pointer; }
 .portfolio-item img{ transition:transform .5s cubic-bezier(.19,1,.22,1); }
 .portfolio-item:hover img{ transform:scale(1.07); }
+
+.lightbox-overlay{
+  position:fixed; inset:0; z-index:800; background:rgba(10,16,13,.92);
+  display:none; align-items:center; justify-content:center; padding:40px;
+  animation:lightboxFade .25s ease;
+}
+.lightbox-overlay.open{ display:flex; }
+@keyframes lightboxFade{ from{ opacity:0; } to{ opacity:1; } }
+.lightbox-overlay img{
+  max-width:90vw; max-height:82vh; object-fit:contain; border-radius:12px;
+  box-shadow:0 40px 90px -30px rgba(0,0,0,.6);
+}
+.lightbox-cap{ position:absolute; left:0; right:0; bottom:26px; text-align:center; color:#fff; font-size:14px; font-weight:600; }
+.lightbox-close{
+  position:fixed; top:22px; right:26px; width:44px; height:44px; border-radius:50%;
+  background:rgba(255,255,255,.12); color:#fff; font-size:22px; display:flex; align-items:center; justify-content:center;
+  transition:background .2s;
+}
+.lightbox-close:hover{ background:rgba(255,255,255,.25); }
 
 .service-card .icon svg{ transition:transform .3s ease; }
 .service-card:hover .icon svg{ transform:rotate(-8deg) scale(1.1); }
 </style>
 </head>
 <body>
+<div id="scrollProgress"></div>
 
 <!-- ================= PUBLIC SITE ================= -->
 <div id="publicView">
@@ -215,7 +316,7 @@ h1,h2,h3{ font-family:var(--font-display); font-weight:700; letter-spacing:-.01e
       <span id="navBrand">Eritkence</span>
     </div>
     <div class="nav-links"><a href="#services">Hizmetler</a><a href="#about">Hakkımızda</a><a href="#portfolio">Portfolyo</a><a href="#contact">İletişim</a></div>
-    <a href="#contact" class="btn btn-primary" style="padding:11px 22px; font-size:13.5px;">Teklif Al</a>
+    <a href="#contact" class="btn btn-primary magnetic" style="padding:11px 22px; font-size:13.5px;">Teklif Al</a>
   </div>
 </nav>
 
@@ -226,16 +327,20 @@ h1,h2,h3{ font-family:var(--font-display); font-weight:700; letter-spacing:-.01e
       <h1 id="heroTitle" class="hero-anim">Fikrinizi <span style="color:var(--green)">markaya</span> eritiyoruz.</h1>
       <p class="lead hero-anim" id="heroLead">Logo, broşür, QR menü, kurumsal website ve PR çalışmalarıyla; işletmenizin göründüğü her yerde tutarlı ve güçlü bir izlenim bırakıyoruz.</p>
       <div class="hero-cta-row hero-anim">
-        <a href="#contact" class="btn btn-primary">Teklif Al</a>
+        <a href="#contact" class="btn btn-primary magnetic">Teklif Al</a>
         <a href="#services" class="btn btn-ghost">Hizmetleri İncele</a>
       </div>
     </div>
     <div class="blob-wrap">
       <div class="blob hero-anim"></div>
-      <div class="blob-label hero-anim">Marka Kimliği<strong id="blobBrand">Eritkence</strong></div>
+      <div class="blob-label hero-anim"><strong id="blobBrand">Eritkence</strong></div>
     </div>
   </div>
 </header>
+
+<div class="ticker-strip">
+  <div class="ticker-track" id="tickerTrack"></div>
+</div>
 
 <section class="section section-alt" id="services">
   <div class="container">
@@ -269,7 +374,7 @@ h1,h2,h3{ font-family:var(--font-display); font-weight:700; letter-spacing:-.01e
         <h2 id="contactTitle">Projenizi konuşalım.</h2>
         <p id="contactSub">WhatsApp üzerinden birkaç dakika içinde dönüş yapıyoruz.</p>
       </div>
-      <a href="#" id="contactBtn" target="_blank" rel="noopener" class="btn btn-primary">WhatsApp'tan Yaz</a>
+      <a href="#" id="contactBtn" target="_blank" rel="noopener" class="btn btn-primary magnetic">WhatsApp'tan Yaz</a>
     </div>
   </div>
 </section>
@@ -391,6 +496,17 @@ h1,h2,h3{ font-family:var(--font-display); font-weight:700; letter-spacing:-.01e
     </div>
   </div>
 </div>
+
+<div class="lightbox-overlay" id="lightboxOverlay">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Kapat">×</button>
+  <img id="lightboxImg" src="" alt="">
+  <div class="lightbox-cap" id="lightboxCap"></div>
+</div>
+
+<a href="#" id="stickyCta" class="sticky-cta" target="_blank" rel="noopener">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.35 5.07L2 22l5.06-1.33A9.94 9.94 0 0012 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.6 0-3.1-.42-4.4-1.15l-.32-.19-3.2.84.85-3.12-.2-.32A7.94 7.94 0 014 12c0-4.41 3.59-8 8-8s8 3.59 8 8-3.59 8-8 8z"/></svg>
+  Teklif Al
+</a>
 
 <div class="toast" id="toast"></div>
 
@@ -524,6 +640,35 @@ function renderPublicSite(){
 window.addEventListener("scroll", ()=>{
   document.getElementById("navBar").classList.toggle("scrolled", window.scrollY>40);
 });
+
+/* ============================================================
+   PORTFOLYO LIGHTBOX (görsele tıklayınca tam boyut açılır)
+   ============================================================ */
+const lightboxOverlay = document.getElementById("lightboxOverlay");
+const lightboxImg = document.getElementById("lightboxImg");
+const lightboxCap = document.getElementById("lightboxCap");
+function openLightbox(src, caption){
+  lightboxImg.src = src;
+  lightboxCap.textContent = caption || "";
+  lightboxOverlay.classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+function closeLightbox(){
+  lightboxOverlay.classList.remove("open");
+  document.body.style.overflow = "";
+  lightboxImg.src = "";
+}
+document.getElementById("portfolioGrid").addEventListener("click", (e)=>{
+  const item = e.target.closest(".portfolio-item");
+  if (!item) return;
+  const img = item.querySelector("img");
+  if (!img) return;
+  const cap = item.querySelector(".cap");
+  openLightbox(img.src, cap ? cap.textContent : img.alt);
+});
+document.getElementById("lightboxClose").addEventListener("click", closeLightbox);
+lightboxOverlay.addEventListener("click", (e)=>{ if (e.target === lightboxOverlay) closeLightbox(); });
+document.addEventListener("keydown", (e)=>{ if (e.key === "Escape") closeLightbox(); });
 
 /* ============================================================
    ADMIN / SİTE GEÇİŞİ + GİRİŞ
@@ -743,13 +888,126 @@ document.getElementById("saveContactBtn").addEventListener("click", async ()=>{
   await loadServices();
   renderPublicSite();
   initRevealObserver();
+  initScrollProgress();
+  initTicker();
+  initMagneticButtons();
+  initStickyCta();
+  initBlobParallax();
+  initCardTilt();
 })();
+
+/* ---------------- Servis kartları — fareye tepki veren 3D tilt ---------------- */
+function initCardTilt(){
+  const grid = document.getElementById("servicesGrid");
+  if (!grid) return;
+  grid.addEventListener("mousemove", (e)=>{
+    const card = e.target.closest(".service-card");
+    if (!card) return;
+    const r = card.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width;   // 0..1
+    const py = (e.clientY - r.top) / r.height;   // 0..1
+    const rotateY = (px - 0.5) * 14;   // sol/sağ eğim
+    const rotateX = (0.5 - py) * 14;   // üst/alt eğim
+    card.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px) scale(1.02)`;
+  });
+  grid.addEventListener("mouseleave", (e)=>{
+    const card = e.target.closest?.(".service-card");
+    // grid'den tamamen çıkınca tüm kartları sıfırla
+    grid.querySelectorAll(".service-card").forEach(c => c.style.transform = "");
+  }, true);
+  grid.addEventListener("mouseout", (e)=>{
+    const from = e.target.closest(".service-card");
+    const to = e.relatedTarget && e.relatedTarget.closest ? e.relatedTarget.closest(".service-card") : null;
+    if (from && from !== to) from.style.transform = "";
+  });
+}
+
+/* ---------------- Scroll ilerleme çubuğu ---------------- */
+function initScrollProgress(){
+  const bar = document.getElementById("scrollProgress");
+  const update = () => {
+    const h = document.documentElement;
+    const scrolled = h.scrollTop;
+    const max = h.scrollHeight - h.clientHeight;
+    bar.style.width = (max > 0 ? (scrolled / max) * 100 : 0) + "%";
+  };
+  window.addEventListener("scroll", update, { passive: true });
+  update();
+}
+
+/* ---------------- Kayan hizmet şeridi ---------------- */
+function initTicker(){
+  const track = document.getElementById("tickerTrack");
+  const items = SERVICES.filter(s=>s.active).length ? SERVICES.filter(s=>s.active).map(s=>s.title) :
+    ["Grafik Tasarım","Logo Tasarımı","Broşür Tasarımı","QR Menü","İşletmeye Özel Website","PR Çalışması"];
+  // İçerik iki kez tekrarlanır ki -%50 kayınca kesintisiz döngü oluşsun
+  const doubled = [...items, ...items];
+  track.innerHTML = doubled.map(t=>`<span>${escapeHtml(t)}</span>`).join("");
+}
+
+/* ---------------- Mıknatıs (magnetic) butonlar ---------------- */
+function initMagneticButtons(){
+  document.querySelectorAll(".magnetic").forEach(btn=>{
+    btn.addEventListener("mousemove", (e)=>{
+      const r = btn.getBoundingClientRect();
+      const x = e.clientX - (r.left + r.width/2);
+      const y = e.clientY - (r.top + r.height/2);
+      btn.style.transform = `translate(${x*0.18}px, ${y*0.35}px)`;
+    });
+    btn.addEventListener("mouseleave", ()=>{ btn.style.transform = "translate(0,0)"; });
+  });
+}
+
+/* ---------------- Sabit WhatsApp CTA ---------------- */
+function initStickyCta(){
+  const cta = document.getElementById("stickyCta");
+  cta.href = buildContactLink("");
+  const update = () => { cta.classList.toggle("visible", window.scrollY > window.innerHeight * 0.6); };
+  window.addEventListener("scroll", update, { passive: true });
+  update();
+}
+
+/* ---------------- Hero blob — mouse parallax (blob-wrap'e uygulanır, .blob'un kendi
+   sürekli dönme/morph animasyonuyla ASLA çakışmaz, çünkü farklı elementlerdedir) ---------------- */
+function initBlobParallax(){
+  const wrap = document.querySelector(".blob-wrap");
+  if (!wrap) return;
+  wrap.addEventListener("mousemove", (e)=>{
+    const r = wrap.getBoundingClientRect();
+    const x = (e.clientX - r.left - r.width/2) / r.width;
+    const y = (e.clientY - r.top - r.height/2) / r.height;
+    wrap.style.transform = `translate(${x*16}px, ${y*16}px)`;
+  });
+  wrap.addEventListener("mouseleave", ()=>{ wrap.style.transform = "translate(0,0)"; });
+}
+
+/* ---------------- Sayaç (count-up) animasyonu ---------------- */
+function animateCountUp(el){
+  const raw = el.textContent.trim();
+  const match = raw.match(/^(\d+)(.*)$/); // baştaki sayı + kalan (örn: "5" + "+")
+  if (!match) return; // sayısal değilse (örn: "Restoran & Kafe") dokunma
+  const target = parseInt(match[1], 10);
+  const suffix = match[2] || "";
+  const duration = 900;
+  const start = performance.now();
+  function tick(now){
+    const p = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(target * eased) + suffix;
+    if (p < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
 
 function initRevealObserver(){
   const observer = new IntersectionObserver((entries)=>{
     entries.forEach(entry=>{
       if (entry.isIntersecting){
         entry.target.classList.add("in-view");
+        if (entry.target.classList.contains("stat-card")){
+          const numEl = entry.target.querySelector(".num");
+          if (numEl) animateCountUp(numEl);
+        }
         observer.unobserve(entry.target);
       }
     });
